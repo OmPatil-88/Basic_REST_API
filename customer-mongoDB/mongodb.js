@@ -2,9 +2,11 @@ const express = require('express')
 const MongoClient = require('mongodb').MongoClient
 
 const app = express();
-
 app.use(express.json());
 var database;
+
+app.use('/auth/user',authRoute);
+
 app.get('/',(req,res)=>{
   res.send('Welcome');
 });
