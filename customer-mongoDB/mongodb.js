@@ -1,5 +1,6 @@
-const express = require('express')
-const MongoClient = require('mongodb').MongoClient
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const app = express();
 app.use(express.json());
@@ -81,9 +82,9 @@ app.delete('/customers/delete/:name',(req,res)=>{
   });
 });
 
-app.listen(8080,()=>{
+app.listen(3000,()=>{
  
-    MongoClient.connect('mongodb://localhost:27017',{useNewUrlParser:true},(error,result)=>{
+    mongoose.connect('mongodb://localhost:27017/mydatabase?authSource=admin',{useNewUrlParser:true},(error,result)=>{
       if(error) throw error
       database=result.db('mydatabase');
       console.log('connection Sucessful');
