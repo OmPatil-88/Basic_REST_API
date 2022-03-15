@@ -1,12 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 
 const app = express();
 app.use(express.json());
 var database;
 
-app.use('/auth/user',authRoute);
 
 app.get('/',(req,res)=>{
   res.send('Welcome');
@@ -84,9 +84,14 @@ app.delete('/customers/delete/:name',(req,res)=>{
 
 app.listen(3000,()=>{
  
-    mongoose.connect('mongodb://localhost:27017/mydatabase?authSource=admin',{useNewUrlParser:true},(error,result)=>{
-      if(error) throw error
-      database=result.db('mydatabase');
+    MongoClient.connect('mongodb://localhost:27017/',{useNewUrlParser:true},(error,result)=>{
+        if (error) throw error
+        try {
+            database = result.db("mydatabase");
+        } catch (e) {
+            console.log(e);
+        }
+      
       console.log('connection Sucessful');
     });
 });
